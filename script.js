@@ -21,38 +21,84 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 2. Dynamic Specular Light & Cursor Tracking on Liquid Glass Cards
-  const cards = document.querySelectorAll('.liquid-card');
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      card.style.setProperty('--mouse-x', `${x}%`);
-      card.style.setProperty('--mouse-y', `${y}%`);
+  function setupCardSpecular() {
+    const cards = document.querySelectorAll('.liquid-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mouse-x', `${x}%`);
+        card.style.setProperty('--mouse-y', `${y}%`);
+      });
     });
-  });
+  }
+  setupCardSpecular();
 
   // 3. Subtle 3D Tilt Effect on Featured Cards
-  const tiltCards = document.querySelectorAll('[data-tilt]');
-  tiltCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      const rotateX = -(y / (rect.height / 2)) * 6;
-      const rotateY = (x / (rect.width / 2)) * 6;
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-    });
+  function setupTilt() {
+    const tiltCards = document.querySelectorAll('[data-tilt]');
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotateX = -(y / (rect.height / 2)) * 6;
+        const rotateY = (x / (rect.width / 2)) * 6;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      });
 
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      });
+    });
+  }
+  setupTilt();
+
+  // 4. Lançamentos Filtering (Tabs & Search)
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const propertyCards = document.querySelectorAll('.lancamento-card');
+  const searchInput = document.getElementById('propertySearch');
+
+  let activeFilter = 'all';
+  let searchTerm = '';
+
+  function applyFilters() {
+    propertyCards.forEach(card => {
+      const category = card.getAttribute('data-category');
+      const text = card.textContent.toLowerCase();
+
+      const matchesFilter = (activeFilter === 'all' || category === activeFilter);
+      const matchesSearch = !searchTerm || text.includes(searchTerm);
+
+      if (matchesFilter && matchesSearch) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.getAttribute('data-filter');
+      applyFilters();
     });
   });
 
-  // 4. Active Navigation State on Scroll
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchTerm = e.target.value.toLowerCase().trim();
+      applyFilters();
+    });
+  }
+
+  // 5. Active Navigation State on Scroll
   const sections = document.querySelectorAll('section[id]');
   const observerOptions = {
-    threshold: 0.35
+    threshold: 0.3
   };
 
   const observer = new IntersectionObserver((entries) => {
@@ -72,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sections.forEach(section => observer.observe(section));
 
-  // 5. Contact Form Integration with WhatsApp
+  // 6. Contact Form Integration with WhatsApp
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
