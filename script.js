@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showDashboard();
         adminLoginForm.reset();
       } else {
-        alert('Senha incorreta! Utilize a senha padrão da gestão: vja55121');
+        alert('Senha incorreta! Por favor, tente novamente.');
       }
     });
   }
