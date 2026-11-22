@@ -6,14 +6,14 @@
   <title>VJA Imóveis | Lançamentos & Negócios Imobiliários de Alto Padrão</title>
   
   <!-- SEO & Metatags -->
-  <meta name="description" content="VJA Negócios Imobiliários Ltda. (CRECI 55121-J). Mais do que vender imóveis, realizamos conquistas! Lançamentos, apartamentos na planta e Minha Casa Minha Vida em São Paulo e Barueri. Av. Paulista, 1471.">
-  <meta name="keywords" content="VJA Imoveis, Imobiliaria Av Paulista, Lançamentos SP, Minha Casa Minha Vida SP, Apartamento na Planta, Barueri, Santo Amaro, Bela Vista, Santana, Stephany Amorim">
+  <meta name="description" content="VJA Negócios Imobiliários Ltda. (CRECI 55121-J). Mais do que vender imóveis, realizamos conquistas! Lançamentos em São Paulo (Zona Norte, Sul, Leste, Oeste, Centro), Barueri e Osasco.">
+  <meta name="keywords" content="VJA Imoveis, Imobiliaria Av Paulista, Lançamentos SP, Zona Norte, Zona Sul, Zona Leste, Zona Oeste, Barueri, Osasco, Minha Casa Minha Vida, Stephany Amorim">
   <meta name="author" content="VJA Negócios Imobiliários">
   
   <!-- Open Graph / WhatsApp Preview -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="VJA Imóveis | Lançamentos & Negócios Imobiliários">
-  <meta property="og:description" content="Mais do que vender imóveis, realizamos conquistas! Conheça nossos lançamentos em São Paulo e Barueri. CRECI 55121-J.">
+  <meta property="og:description" content="Mais do que vender imóveis, realizamos conquistas! Conheça nossos lançamentos em São Paulo, Barueri e Osasco. CRECI 55121-J.">
   <meta property="og:image" content="cartaofrente.jpeg">
   <meta property="og:locale" content="pt_BR">
   
@@ -50,7 +50,7 @@
 
       <ul class="nav-menu" id="navMenu">
         <li><a href="#home" class="nav-link active">Início</a></li>
-        <li><a href="#lancamentos" class="nav-link">Lançamentos</a></li>
+        <li><a href="#lancamentos" class="nav-link">Catálogo</a></li>
         <li><a href="#sobre" class="nav-link">Sobre Nós</a></li>
         <li><a href="#servicos" class="nav-link">Serviços</a></li>
         <li><a href="#diferenciais" class="nav-link">Diferenciais</a></li>
@@ -59,6 +59,12 @@
       </ul>
 
       <div class="nav-actions">
+        <!-- Botão Área da Gestão (Proprietária) -->
+        <button class="btn btn-glass nav-admin-btn" id="openAdminBtn" title="Área da Proprietária / Cadastrar Imóveis">
+          <i class="fa-solid fa-key"></i>
+          <span class="nav-admin-text">Gestão</span>
+        </button>
+
         <a href="https://wa.me/5511932774040?text=Ol%C3%A1%2C%20Stephany%21%20Visitei%20o%20site%20da%20VJA%20Im%C3%B3veis%20e%20gostaria%20de%20falar%20com%20um%20especialista." target="_blank" class="btn btn-gold-liquid nav-cta">
           <i class="fa-brands fa-whatsapp"></i>
           <span>Falar com Especialista</span>
@@ -76,7 +82,7 @@
       <div class="hero-content">
         <div class="glass-badge hero-pill">
           <span class="pill-dot"></span>
-          <span class="pill-text">Av. Paulista • São Paulo & Barueri</span>
+          <span class="pill-text">Av. Paulista • São Paulo, Barueri & Osasco</span>
         </div>
         
         <h1 class="hero-title">
@@ -84,17 +90,17 @@
         </h1>
         
         <p class="hero-description">
-          A <strong>VJA Imóveis</strong> é especializada em lançamentos imobiliários, apartamentos na planta e oportunidades do programa <em>Minha Casa Minha Vida</em> em São Paulo e Barueri. Oferecemos assessoria consultiva, transparência e condições facilitadas em cada etapa da sua compra.
+          A <strong>VJA Imóveis</strong> é especializada em lançamentos imobiliários, apartamentos na planta e oportunidades do programa <em>Minha Casa Minha Vida</em> em todas as regiões de São Paulo, Barueri e Osasco. Oferecemos assessoria consultiva, transparência e condições facilitadas em cada etapa da sua compra.
         </p>
 
         <div class="hero-buttons">
           <a href="#lancamentos" class="btn btn-gold-liquid btn-lg">
             <i class="fa-solid fa-city"></i>
-            <span>Ver Nossos Lançamentos</span>
+            <span>Ver Catálogo Completo</span>
           </a>
           <a href="https://wa.me/5511932774040?text=Ol%C3%A1%21%20Visitei%20o%20site%20da%20VJA%20Im%C3%B3veis%20e%20quero%20conhecer%20os%20lan%C3%A7amentos." target="_blank" class="btn btn-glass btn-lg">
             <i class="fa-brands fa-whatsapp"></i>
-            <span>Falar com a Gestão</span>
+            <span>Falar com Stephany</span>
           </a>
         </div>
 
@@ -152,13 +158,13 @@
     <div class="container">
       <div class="liquid-card metrics-card">
         <div class="metric-item">
-          <span class="metric-number">+12</span>
-          <span class="metric-label">Lançamentos em Destaque</span>
+          <span class="metric-number" id="metricTotalProps">15+</span>
+          <span class="metric-label">Imóveis no Catálogo</span>
         </div>
         <div class="metric-divider"></div>
         <div class="metric-item">
-          <span class="metric-number">SP & Barueri</span>
-          <span class="metric-label">Localizações Privilegiadas</span>
+          <span class="metric-number">7 Regiões</span>
+          <span class="metric-label">ZN, ZS, ZL, ZO, Centro, Barueri, Osasco</span>
         </div>
         <div class="metric-divider"></div>
         <div class="metric-item">
@@ -174,389 +180,58 @@
     </div>
   </section>
 
-  <!-- LANÇAMENTOS IMOBILIÁRIOS (ADAPTAÇÃO COMPLETA DO GOOGLE SITES) -->
+  <!-- LANÇAMENTOS IMOBILIÁRIOS / CATÁLOGO DINÂMICO -->
   <section id="lancamentos" class="section lancamentos-section">
     <div class="container">
       <div class="section-header text-center">
         <div class="glass-badge section-pill">
           <i class="fa-solid fa-gem"></i>
-          <span>Portfólio Exclusivo</span>
+          <span>Catálogo Oficial</span>
         </div>
         <h2 class="section-title">
-          Nossos <span class="gold-gradient-text">Lançamentos</span>
+          Encontre o seu Imóvel por <span class="gold-gradient-text">Região</span>
         </h2>
         <p class="section-subtitle">
-          Apartamentos na planta, prontos para morar e oportunidades imperdíveis com subsídio e financiamento facilitado nas melhores regiões.
+          Apartamentos na planta, prontos para morar e oportunidades imperdíveis com subsídio e financiamento facilitado nas melhores localizações de São Paulo e região.
         </p>
       </div>
 
       <!-- Filter Controls & Search -->
       <div class="lancamentos-controls">
         <div class="filter-tabs" id="filterTabs">
-          <button class="filter-btn active" data-filter="all">Todos (12)</button>
-          <button class="filter-btn" data-filter="zona-sul">Zona Sul</button>
-          <button class="filter-btn" data-filter="centro-paulista">Centro & Paulista</button>
-          <button class="filter-btn" data-filter="zona-norte">Zona Norte</button>
-          <button class="filter-btn" data-filter="barueri">Barueri</button>
+          <button class="filter-btn active" data-filter="all">Todas as Regiões (<span id="countAll">0</span>)</button>
+          <button class="filter-btn" data-filter="zona-norte">Zona Norte (<span id="countZN">0</span>)</button>
+          <button class="filter-btn" data-filter="zona-sul">Zona Sul (<span id="countZS">0</span>)</button>
+          <button class="filter-btn" data-filter="zona-leste">Zona Leste (<span id="countZL">0</span>)</button>
+          <button class="filter-btn" data-filter="zona-oeste">Zona Oeste (<span id="countZO">0</span>)</button>
+          <button class="filter-btn" data-filter="centro-paulista">Centro & Paulista (<span id="countCentro">0</span>)</button>
+          <button class="filter-btn" data-filter="barueri">Barueri (<span id="countBarueri">0</span>)</button>
+          <button class="filter-btn" data-filter="osasco">Osasco (<span id="countOsasco">0</span>)</button>
         </div>
 
-        <div class="search-wrap">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="propertySearch" placeholder="Buscar por bairro, condomínio ou dormitórios...">
+        <div class="search-actions-bar">
+          <div class="search-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="propertySearch" placeholder="Buscar por bairro, condomínio, dormitórios ou preço...">
+          </div>
+          <button class="btn btn-gold-liquid btn-sm add-prop-quick-btn" id="quickAddBtn">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span>Adicionar Imóvel</span>
+          </button>
         </div>
       </div>
 
-      <!-- Properties Grid -->
+      <!-- Properties Grid (Rendered dynamically from properties.json + localStorage) -->
       <div class="lancamentos-grid" id="lancamentosGrid">
+        <!-- Injetado dinamicamente via script.js -->
+      </div>
 
-        <!-- 1. ENJOY SANTO AMARO -->
-        <article class="liquid-card lancamento-card" data-category="zona-sul" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/enjoy-santo-amaro.jpg" alt="Enjoy Santo Amaro" class="card-thumb" loading="lazy">
-            <span class="tag-status tag-destaque">Oportunidade</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Santo Amaro</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Enjoy Santo Amaro</h3>
-            <p class="card-location-sub">Próximo ao Largo 13, Zona Sul - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 269.900,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 2 Dormitórios</li>
-              <li><i class="fa-solid fa-expand"></i> 35 m²</li>
-              <li><i class="fa-solid fa-wind"></i> Ponto p/ Ar-condicionado</li>
-              <li><i class="fa-solid fa-mug-saucer"></i> Com Varanda</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Condições facilitadas de entrada e financiamento.</p>
-            <a href="https://wa.me/5511932774040?text=Ola%21%20Tenho%20interesse%20no%20Enjoy%20Santo%20Amaro." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Enjoy</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 2. CONNECT JOÃO DIAS -->
-        <article class="liquid-card lancamento-card" data-category="zona-sul" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/connect-joao-dias.jpg" alt="Connect João Dias" class="card-thumb" loading="lazy">
-            <span class="tag-status">Lançamento</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> João Dias</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Connect João Dias</h3>
-            <p class="card-location-sub">Região de Santo Amaro / João Dias - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 295.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 2 e 3 Dormitórios</li>
-              <li><i class="fa-solid fa-expand"></i> 32 m² e 51 m²</li>
-              <li><i class="fa-solid fa-car"></i> Opções com Vaga</li>
-              <li><i class="fa-solid fa-building"></i> Condomínio 2 Torres</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Unidades com vaga e varanda disponíveis.</p>
-            <a href="https://wa.me/5511932774040?text=Ola%21%20Tenho%20interesse%20no%20Connect%20Joao%20Dias%20e%20gostaria%20de%20mais%20informacoes." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Connect</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 3. JOÃO ALFREDO | SANTO AMARO -->
-        <article class="liquid-card lancamento-card" data-category="zona-sul" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/joao-alfredo-santo-amaro.jpg" alt="João Alfredo Santo Amaro" class="card-thumb" loading="lazy">
-            <span class="tag-status tag-destaque">Super Entrada</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Santo Amaro</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">João Alfredo</h3>
-            <p class="card-location-sub">Rua João Alfredo, Santo Amaro - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 230.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 1 e 2 Dormitórios</li>
-              <li><i class="fa-solid fa-expand"></i> 25 m² a 47 m²</li>
-              <li><i class="fa-solid fa-car"></i> Opção com Vaga</li>
-              <li><i class="fa-solid fa-mug-saucer"></i> Opção com Varanda</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Plantas inteligentes de 25m², 32m², 35m² e 47m².</p>
-            <a href="https://wa.me/5511932774040?text=Ola%21%20Tenho%20interesse%20no%20Joao%20Alfredo%20Santo%20Amaro%20e%20gostaria%20de%20mais%20informacoes." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Alfredo</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 4. BEM VIVER PAULISTA | BELA VISTA -->
-        <article class="liquid-card lancamento-card" data-category="centro-paulista" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/bem-viver-paulista.jpg" alt="Bem Viver Paulista" class="card-thumb" loading="lazy">
-            <span class="tag-status tag-vip">Região Nobre</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Bela Vista / Paulista</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Bem Viver Paulista</h3>
-            <p class="card-location-sub">Av. Brigadeiro Luís Antônio, Bela Vista - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 385.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 1, 2 e 3 Dormitórios</li>
-              <li><i class="fa-solid fa-expand"></i> 25 m² a 40 m²</li>
-              <li><i class="fa-solid fa-train-subway"></i> Ao lado do Metrô</li>
-              <li><i class="fa-solid fa-chart-line"></i> Alta Rentabilidade</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Localização privilegiada na região da Av. Paulista.</p>
-            <a href="https://wa.me/5511932774040?text=Ol%C3%A1%21%20Vi%20o%20empreendimento%20Bem%20Viver%20Paulista%20no%20site%20da%20VJA%20Im%C3%B3veis%20e%20gostaria%20de%20receber%20mais%20informa%C3%A7%C3%B5es%2C%20valores%20e%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Paulista</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 5. BEM VIVER PRAÇA FORTUNATO | SANTA CECÍLIA -->
-        <article class="liquid-card lancamento-card" data-category="centro-paulista" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/bem-viver-praca-fortunato.jpg" alt="Bem Viver Praça Fortunato" class="card-thumb" loading="lazy">
-            <span class="tag-status">Studio & 1-2D</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Santa Cecília</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Bem Viver Praça Fortunato</h3>
-            <p class="card-location-sub">Rua Fortunato, Santa Cecília - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 240.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> Studios, 1 e 2 Dorms</li>
-              <li><i class="fa-solid fa-expand"></i> 18 m² a 34 m²</li>
-              <li><i class="fa-solid fa-tree"></i> Em frente à Praça</li>
-              <li><i class="fa-solid fa-utensils"></i> Polo Gastronômico</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Ideal para investimento em locação ou moradia dinâmica.</p>
-            <a href="https://wa.me/5511932774040?text=Ol%C3%A1%21%20Vi%20o%20empreendimento%20Bem%20Viver%20Pra%C3%A7a%20Fortunato%20no%20site%20da%20VJA%20Im%C3%B3veis%20e%20gostaria%20de%20receber%20mais%20informa%C3%A7%C3%B5es%2C%20valores%20e%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Fortunato</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 6. BEM VIVER ANGÉLICA | SÃO PAULO -->
-        <article class="liquid-card lancamento-card" data-category="centro-paulista" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/bem-viver-angelica.jpg" alt="Bem Viver Angélica" class="card-thumb" loading="lazy">
-            <span class="tag-status">Torre Única</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Angélica / Barra Funda</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Bem Viver Angélica</h3>
-            <p class="card-location-sub">Rua Barra Funda, São Paulo - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 350.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 1, 2 e 3 Dormitórios</li>
-              <li><i class="fa-solid fa-expand"></i> 24 m² a 40 m²</li>
-              <li><i class="fa-solid fa-building"></i> Torre Única - 22 Andares</li>
-              <li><i class="fa-solid fa-dumbbell"></i> Lazer Completo</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Torre imponente com infraestrutura de lazer de resort.</p>
-            <a href="https://wa.me/5511932774040?text=Ol%C3%A1%21%20Vi%20o%20empreendimento%20Bem%20Viver%20Ang%C3%A9lica%20no%20site%20da%20VJA%20Im%C3%B3veis%20e%20gostaria%20de%20receber%20mais%20informa%C3%A7%C3%B5es%2C%20valores%20e%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Angélica</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 7. BRIT PARADA INGLESA | ZONA NORTE -->
-        <article class="liquid-card lancamento-card" data-category="zona-norte" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/brit-parada-inglesa.jpg" alt="Brit Parada Inglesa" class="card-thumb" loading="lazy">
-            <span class="tag-status">Grande Lançamento</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Parada Inglesa</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Brit Parada Inglesa</h3>
-            <p class="card-location-sub">Rua Inglesa, 289 e 309, Zona Norte - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 332.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 1 e 2 Dormitórios</li>
-              <li><i class="fa-solid fa-expand"></i> 24 m² a 68 m²</li>
-              <li><i class="fa-solid fa-car"></i> Opção com Garagem</li>
-              <li><i class="fa-solid fa-train-subway"></i> Próx. Metrô Parada Inglesa</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Torre única exclusiva com 334 unidades residenciais.</p>
-            <a href="https://wa.me/5511932774040?text=Ol%C3%A1%21%20Vi%20o%20Brit%20Parada%20Inglesa%20e%20quero%20mais%20informa%C3%A7%C3%B5es." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Brit</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 8. SOUL SANTANA | ZONA NORTE -->
-        <article class="liquid-card lancamento-card" data-category="zona-norte" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/soul-santana.jpg" alt="Soul Santana" class="card-thumb" loading="lazy">
-            <span class="tag-status">Opção com Suíte</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Santana</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Soul Santana</h3>
-            <p class="card-location-sub">Rua Conselheiro Moreira de Barros, Santana - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 260.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 1 e 2 Dorms (com Suíte)</li>
-              <li><i class="fa-solid fa-expand"></i> 27 m² a 51 m²</li>
-              <li><i class="fa-solid fa-car"></i> Vaga de Garagem</li>
-              <li><i class="fa-solid fa-shield"></i> Condomínio Fechado</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Na melhor região de Santana com facilidades de financiamento.</p>
-            <a href="https://wa.me/5511932774040?text=Ol%C3%A1%21%20Vi%20o%20empreendimento%20Soul%20Santana%20no%20site%20da%20VJA%20Im%C3%B3veis%20e%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es%20e%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Soul</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 9. BOTÂNICA SANTANA | ZONA NORTE -->
-        <article class="liquid-card lancamento-card" data-category="zona-norte" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/botanica-santana.jpg" alt="Botânica Santana" class="card-thumb" loading="lazy">
-            <span class="tag-status tag-destaque">Super Econômico</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Santana</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Botânica Santana</h3>
-            <p class="card-location-sub">Rua Mateus Leme, Santana - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 195.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 1 e 2 Dormitórios</li>
-              <li><i class="fa-solid fa-expand"></i> 24 m² a 39 m²</li>
-              <li><i class="fa-solid fa-leaf"></i> Lazer Integrado à Natureza</li>
-              <li><i class="fa-solid fa-car"></i> Opção com Vaga</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Excelente condição Minha Casa Minha Vida e entrada facilitada.</p>
-            <a href="https://wa.me/5511932774040?text=Ol%C3%A1%21%20Vi%20o%20empreendimento%20Bot%C3%A2nica%20Santana%20no%20site%20da%20VJA%20Im%C3%B3veis%20e%20gostaria%20de%20receber%20mais%20informa%C3%A7%C3%B5es%2C%20valores%20e%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Botânica</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 10. MONUMENTAL RESIDENCIAL | SANTO AMARO -->
-        <article class="liquid-card lancamento-card" data-category="zona-sul" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/monumental-residencial.jpg" alt="Monumental Residencial" class="card-thumb" loading="lazy">
-            <span class="tag-status">Plantas Amplas</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Santo Amaro</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Monumental Residencial</h3>
-            <p class="card-location-sub">Rua Doutor Antônio Bento, Santo Amaro - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 285.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 1, 2 e 3 Dormitórios</li>
-              <li><i class="fa-solid fa-expand"></i> 27 m² a 89 m²</li>
-              <li><i class="fa-solid fa-car"></i> Opção com Vaga</li>
-              <li><i class="fa-solid fa-couch"></i> Diversas Opções de Planta</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Estrutura completa para diferentes estilos de vida.</p>
-            <a href="https://wa.me/5511932774040?text=Ol%C3%A1!%20Vi%20o%20Monumental%20Residencial%20no%20site%20da%20VJA%20Im%C3%B3veis%20e%20gostaria%20de%20receber%20mais%20informa%C3%A7%C3%B5es%2C%20valores%20e%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Monumental</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 11. OLI IPIRANGA | SÃO PAULO -->
-        <article class="liquid-card lancamento-card" data-category="zona-sul" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/oli-ipiranga.jpg" alt="OLI Ipiranga" class="card-thumb" loading="lazy">
-            <span class="tag-status">Bairro Tradicional</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Ipiranga</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">OLI Ipiranga</h3>
-            <p class="card-location-sub">Rua Oliveira Alves, Ipiranga - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 301.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 1 e 2 Dormitórios</li>
-              <li><i class="fa-solid fa-expand"></i> 35 m² e 39 m²</li>
-              <li><i class="fa-solid fa-tree"></i> Próx. ao Museu do Ipiranga</li>
-              <li><i class="fa-solid fa-train-subway"></i> Fácil Acesso ao Metrô</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Conforto e conveniência em um dos bairros mais charmosos de SP.</p>
-            <a href="https://wa.me/5511932774040?text=Ol%C3%A1!%20Vi%20o%20OLI%20Ipiranga%20no%20site%20da%20VJA%20Im%C3%B3veis%20e%20gostaria%20de%20receber%20informa%C3%A7%C3%B5es%2C%20valores%20e%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o OLI</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- 12. SERENNE BARUERI | ALDEIA DE BARUERI -->
-        <article class="liquid-card lancamento-card" data-category="barueri" data-tilt>
-          <div class="card-glass-specular"></div>
-          <div class="card-thumb-wrap">
-            <img src="images/serenne-barueri.jpg" alt="Serenne Barueri" class="card-thumb" loading="lazy">
-            <span class="tag-status tag-vip">Shopping Barueri</span>
-            <span class="tag-location"><i class="fa-solid fa-location-dot"></i> Barueri</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Serenne Barueri</h3>
-            <p class="card-location-sub">Rua Luiz Scott, Aldeia de Barueri - SP</p>
-            <div class="card-price-box">
-              <span class="price-prefix">A partir de</span>
-              <span class="price-value">R$ 503.000,00</span>
-            </div>
-            <ul class="card-specs">
-              <li><i class="fa-solid fa-bed"></i> 2 Dormitórios</li>
-              <li><i class="fa-solid fa-expand"></i> 49 m² e 53 m²</li>
-              <li><i class="fa-solid fa-car"></i> 1 ou 2 Vagas de Garagem</li>
-              <li><i class="fa-solid fa-bag-shopping"></i> Próx. ao Parque Shopping</li>
-            </ul>
-            <p class="card-note"><i class="fa-solid fa-circle-check"></i> Ao lado do Parque Shopping Barueri e fácil acesso a Alphaville.</p>
-            <a href="https://wa.me/5511932774040?text=Ol%C3%A1%21%20Vi%20o%20empreendimento%20Serenne%20Barueri%20no%20site%20da%20VJA%20Im%C3%B3veis%20e%20gostaria%20de%20receber%20mais%20informa%C3%A7%C3%B5es%2C%20valores%20e%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" class="btn btn-gold-liquid w-100">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Quero Conhecer o Serenne</span>
-            </a>
-          </div>
-        </article>
-
+      <!-- Empty State -->
+      <div id="noResults" class="liquid-card no-results-card" style="display: none;">
+        <i class="fa-solid fa-building-circle-exclamation"></i>
+        <h3>Nenhum imóvel encontrado nesta região ou busca</h3>
+        <p>Tente alterar os termos de pesquisa ou clique em "Todas as Regiões".</p>
+        <button class="btn btn-gold-liquid btn-sm" id="resetFilterBtn">Ver Todos os Imóveis</button>
       </div>
 
       <!-- Bottom Banner inside Lançamentos -->
@@ -608,7 +283,7 @@
           Na <strong>VJA Imóveis</strong>, acreditamos que a conquista do imóvel próprio é um dos momentos mais importantes da vida de qualquer pessoa ou família. Por isso, oferecemos atendimento personalizado, transparência e orientação segura em todas as etapas da compra.
         </p>
         <p class="section-desc">
-          Somos especialistas em <strong>lançamentos imobiliários, apartamentos na planta e oportunidades do programa Minha Casa Minha Vida</strong>. Com sede estratégica na <strong>Avenida Paulista, 1471 (Conjunto 1110)</strong>, atuamos com intensidade na Capital (Zona Sul, Centro, Zona Norte, Ipiranga) e em Barueri.
+          Somos especialistas em <strong>lançamentos imobiliários, apartamentos na planta e oportunidades do programa Minha Casa Minha Vida</strong>. Com sede estratégica na <strong>Avenida Paulista, 1471 (Conjunto 1110)</strong>, atuamos com intensidade em todas as regiões de São Paulo (Zona Norte, Sul, Leste, Oeste e Centro), além de Barueri e Osasco.
         </p>
 
         <div class="sobre-highlights">
@@ -663,7 +338,7 @@
           </div>
           <h3 class="service-title">Compra</h3>
           <p class="service-text">
-            Curadoria criteriosa de imóveis prontos e na planta em São Paulo e Barueri, alinhados rigorosamente ao seu orçamento e estilo de vida.
+            Curadoria criteriosa de imóveis prontos e na planta em todas as regiões de SP, Barueri e Osasco, alinhados ao seu orçamento.
           </p>
           <ul class="service-features">
             <li><i class="fa-solid fa-circle-check"></i> Seleção sob medida de imóveis</li>
@@ -705,7 +380,7 @@
           </div>
           <h3 class="service-title">Lançamentos</h3>
           <p class="service-text">
-            Acesso prioritário às melhores tabelas de pré-lançamento das construtoras e incorporadoras mais conceituadas de São Paulo e Barueri.
+            Acesso prioritário às melhores tabelas de pré-lançamento das construtoras mais conceituadas de São Paulo, Barueri e Osasco.
           </p>
           <ul class="service-features">
             <li><i class="fa-solid fa-circle-check"></i> Empreendimentos nas melhores localizações</li>
@@ -933,18 +608,13 @@
                   <select id="interesse" name="interesse" required>
                     <option value="Conhecer Lançamentos Gerais">Conhecer Lançamentos / Apartamento na Planta</option>
                     <option value="Simulação Minha Casa Minha Vida">Simulação Minha Casa Minha Vida</option>
-                    <option value="Enjoy Santo Amaro">Enjoy Santo Amaro</option>
-                    <option value="Connect João Dias">Connect João Dias</option>
-                    <option value="João Alfredo Santo Amaro">João Alfredo | Santo Amaro</option>
-                    <option value="Bem Viver Paulista">Bem Viver Paulista | Bela Vista</option>
-                    <option value="Bem Viver Praça Fortunato">Bem Viver Praça Fortunato | Santa Cecília</option>
-                    <option value="Bem Viver Angélica">Bem Viver Angélica</option>
-                    <option value="Brit Parada Inglesa">Brit Parada Inglesa</option>
-                    <option value="Soul Santana">Soul Santana</option>
-                    <option value="Botânica Santana">Botânica Santana</option>
-                    <option value="Monumental Residencial">Monumental Residencial | Santo Amaro</option>
-                    <option value="OLI Ipiranga">OLI Ipiranga</option>
-                    <option value="Serenne Barueri">Serenne Barueri</option>
+                    <option value="Imóveis na Zona Norte">Imóveis na Zona Norte</option>
+                    <option value="Imóveis na Zona Sul">Imóveis na Zona Sul</option>
+                    <option value="Imóveis na Zona Leste">Imóveis na Zona Leste</option>
+                    <option value="Imóveis na Zona Oeste">Imóveis na Zona Oeste</option>
+                    <option value="Imóveis no Centro / Paulista">Imóveis no Centro / Região Paulista</option>
+                    <option value="Imóveis em Barueri">Imóveis em Barueri</option>
+                    <option value="Imóveis em Osasco">Imóveis em Osasco</option>
                     <option value="Venda de Imóvel">Quero Vender meu Imóvel</option>
                     <option value="Assessoria Imobiliária">Assessoria Jurídica e Documental</option>
                     <option value="Outros Assuntos">Outro Assunto</option>
@@ -994,11 +664,12 @@
           <h4>Navegação</h4>
           <ul>
             <li><a href="#home">Início</a></li>
-            <li><a href="#lancamentos">Lançamentos</a></li>
+            <li><a href="#lancamentos">Catálogo</a></li>
             <li><a href="#sobre">Sobre Nós</a></li>
             <li><a href="#servicos">Serviços</a></li>
             <li><a href="#localizacao">Localização</a></li>
             <li><a href="#contato">Contato</a></li>
+            <li><a href="#" id="footerAdminLink" class="gold-link"><i class="fa-solid fa-key"></i> Área da Gestão</a></li>
           </ul>
         </div>
 
@@ -1026,6 +697,170 @@
     </div>
     <i class="fa-brands fa-whatsapp"></i>
   </a>
+
+  <!-- ==========================================================================
+       MODAL DE GESTÃO DA PROPRIETÁRIA (ADICIONAR / GERENCIAR IMÓVEIS)
+       ========================================================================== -->
+  <div class="admin-modal-overlay" id="adminModal">
+    <div class="liquid-card admin-modal-card">
+      <div class="card-glass-specular"></div>
+      
+      <!-- Fechar Modal -->
+      <button class="modal-close-btn" id="closeAdminBtn" aria-label="Fechar painel">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- TELA 1: AUTENTICAÇÃO COM SENHA -->
+      <div class="admin-auth-view" id="adminAuthView">
+        <div class="admin-header-crest">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h3>Área da Gestão VJA</h3>
+        <p>Acesso exclusivo para a proprietária cadastrar e gerenciar imóveis no catálogo.</p>
+        
+        <form id="adminLoginForm" class="admin-auth-form">
+          <div class="form-group">
+            <label for="adminPass">Senha de Acesso</label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" id="adminPass" placeholder="Digite sua senha de gestão..." required>
+            </div>
+            <span class="admin-hint">Dica: A senha padrão inicial é <strong>vja55121</strong> (CRECI).</span>
+          </div>
+          <button type="submit" class="btn btn-gold-liquid w-100">
+            <i class="fa-solid fa-unlock-keyhole"></i>
+            <span>Entrar no Painel</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- TELA 2: PAINEL DE CONTROLE (QUANDO LOGADO) -->
+      <div class="admin-dashboard-view" id="adminDashboardView" style="display: none;">
+        <div class="admin-dash-header">
+          <div>
+            <h3>Painel de Gestão de Imóveis</h3>
+            <p>Cadastre novos imóveis ou gerencie os já publicados.</p>
+          </div>
+          <button class="btn btn-glass btn-sm" id="adminLogoutBtn">
+            <i class="fa-solid fa-right-from-bracket"></i> Sair
+          </button>
+        </div>
+
+        <!-- Abas do Painel -->
+        <div class="admin-tabs">
+          <button class="admin-tab-btn active" data-tab="addTab">
+            <i class="fa-solid fa-circle-plus"></i> Novo Imóvel
+          </button>
+          <button class="admin-tab-btn" data-tab="manageTab">
+            <i class="fa-solid fa-list-check"></i> Gerenciar Imóveis (<span id="manageCount">0</span>)
+          </button>
+        </div>
+
+        <!-- Conteúdo Aba 1: Adicionar Imóvel -->
+        <div class="admin-tab-content active" id="addTab">
+          <form id="newPropertyForm" class="new-prop-form">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="propTitle">Título / Nome do Empreendimento *</label>
+                <input type="text" id="propTitle" placeholder="Ex: Grand Reserva Mooca" required>
+              </div>
+              <div class="form-group">
+                <label for="propCategory">Classificação por Região *</label>
+                <select id="propCategory" required>
+                  <option value="zona-norte">Zona Norte</option>
+                  <option value="zona-sul">Zona Sul</option>
+                  <option value="zona-leste">Zona Leste</option>
+                  <option value="zona-oeste">Zona Oeste</option>
+                  <option value="centro-paulista">Centro & Paulista</option>
+                  <option value="barueri">Barueri</option>
+                  <option value="osasco">Osasco</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="propLocation">Bairro / Endereço *</label>
+                <input type="text" id="propLocation" placeholder="Ex: Rua da Mooca, Mooca - SP" required>
+              </div>
+              <div class="form-group">
+                <label for="propPrice">Preço *</label>
+                <input type="text" id="propPrice" placeholder="Ex: R$ 289.000,00 ou A partir de..." required>
+              </div>
+            </div>
+
+            <div class="form-row-3">
+              <div class="form-group">
+                <label for="propDorms">Dormitórios *</label>
+                <input type="text" id="propDorms" placeholder="Ex: 2 Dormitórios" required>
+              </div>
+              <div class="form-group">
+                <label for="propArea">Metragem *</label>
+                <input type="text" id="propArea" placeholder="Ex: 38 m² ou 35 a 55 m²" required>
+              </div>
+              <div class="form-group">
+                <label for="propTag">Tag de Destaque</label>
+                <input type="text" id="propTag" placeholder="Ex: Lançamento, MCMV, Oportunidade">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="propFeatures">Diferenciais (separados por vírgula)</label>
+              <input type="text" id="propFeatures" placeholder="Ex: Com Varanda, Vaga de Garagem, Perto do Metrô, Lazer Completo">
+            </div>
+
+            <!-- Upload da Imagem ou URL -->
+            <div class="form-group">
+              <label>Foto do Imóvel *</label>
+              <div class="image-upload-box">
+                <div class="upload-dropzone" id="uploadDropzone">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>Clique ou arraste a foto do imóvel aqui</span>
+                  <input type="file" id="propImageFile" accept="image/*" class="file-hidden-input">
+                </div>
+                <div class="image-preview-wrap" id="imagePreviewWrap" style="display: none;">
+                  <img id="imagePreview" src="" alt="Prévia da foto">
+                  <button type="button" class="btn-remove-preview" id="btnRemovePreview">
+                    <i class="fa-solid fa-trash"></i> Trocar Foto
+                  </button>
+                </div>
+              </div>
+              <div class="image-url-fallback">
+                <span>Ou cole uma URL direta da foto:</span>
+                <input type="url" id="propImageUrl" placeholder="https://exemplo.com/foto.jpg">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="propWhatsappText">Mensagem Personalizada para o WhatsApp (Opcional)</label>
+              <input type="text" id="propWhatsappText" placeholder="Ex: Olá! Tenho interesse no Grand Reserva Mooca e gostaria de informações.">
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-gold-liquid btn-lg w-100">
+                <i class="fa-solid fa-check"></i>
+                <span>Publicar Imóvel no Catálogo</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Conteúdo Aba 2: Gerenciar & Excluir Imóveis -->
+        <div class="admin-tab-content" id="manageTab">
+          <div class="manage-list-header">
+            <span>Imóveis Ativos no Catálogo</span>
+            <button class="btn btn-glass btn-sm" id="exportCatalogBtn" title="Exportar cópia dos dados em JSON">
+              <i class="fa-solid fa-download"></i> Backup JSON
+            </button>
+          </div>
+          <div class="manage-properties-list" id="managePropertiesList">
+            <!-- Injetado dinamicamente via script.js -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- JavaScript -->
   <script src="script.js"></script>
