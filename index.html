@@ -856,6 +856,110 @@
             <!-- Injetado dinamicamente via script.js -->
           </div>
         </div>
+
+        <!-- Conteúdo Aba 3: Editar Imóvel e Trocar Foto -->
+        <div class="admin-tab-content" id="editTab">
+          <div class="edit-tab-header">
+            <button type="button" class="btn btn-glass btn-sm" id="btnCancelEdit">
+              <i class="fa-solid fa-arrow-left"></i> Voltar à Lista
+            </button>
+            <h4 id="editPropHeading">Editar Imóvel & Foto</h4>
+          </div>
+
+          <form id="editPropertyForm" class="new-prop-form">
+            <input type="hidden" id="editPropId">
+
+            <!-- Seção de Destaque para Upload e Troca de Foto -->
+            <div class="form-group edit-photo-group">
+              <label>Foto Oficial do Empreendimento *</label>
+              <div class="edit-photo-container">
+                <div class="edit-photo-preview-box">
+                  <img id="editImagePreview" src="" alt="Foto atual do imóvel">
+                </div>
+                <div class="edit-photo-actions">
+                  <label for="editPropImageFile" class="btn btn-gold-liquid btn-upload-photo">
+                    <i class="fa-solid fa-camera"></i>
+                    <span>Fazer Upload de Nova Foto</span>
+                  </label>
+                  <input type="file" id="editPropImageFile" accept="image/*" class="file-hidden-input">
+                  <p class="edit-photo-hint">Clique no botão para escolher uma nova foto da galeria do seu celular ou do computador.</p>
+                  <div id="editPhotoStatus" class="photo-status-alert" style="display: none;">
+                    <i class="fa-solid fa-circle-check"></i> Nova foto carregada! Lembre-se de salvar.
+                  </div>
+                  <div class="image-url-fallback">
+                    <span>Ou informe uma URL direta da foto:</span>
+                    <input type="url" id="editPropImageUrl" placeholder="https://exemplo.com/nova-foto.jpg">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="editPropTitle">Título / Nome do Empreendimento *</label>
+                <input type="text" id="editPropTitle" required>
+              </div>
+              <div class="form-group">
+                <label for="editPropCategory">Classificação por Região *</label>
+                <select id="editPropCategory" required>
+                  <option value="zona-norte">Zona Norte</option>
+                  <option value="zona-sul">Zona Sul</option>
+                  <option value="zona-leste">Zona Leste</option>
+                  <option value="zona-oeste">Zona Oeste</option>
+                  <option value="centro-paulista">Centro & Paulista</option>
+                  <option value="barueri">Barueri</option>
+                  <option value="osasco">Osasco</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="editPropLocation">Bairro / Endereço *</label>
+                <input type="text" id="editPropLocation" required>
+              </div>
+              <div class="form-group">
+                <label for="editPropPrice">Preço *</label>
+                <input type="text" id="editPropPrice" required>
+              </div>
+            </div>
+
+            <div class="form-row-3">
+              <div class="form-group">
+                <label for="editPropDorms">Dormitórios *</label>
+                <input type="text" id="editPropDorms" required>
+              </div>
+              <div class="form-group">
+                <label for="editPropArea">Metragem *</label>
+                <input type="text" id="editPropArea" required>
+              </div>
+              <div class="form-group">
+                <label for="editPropTag">Tag de Destaque</label>
+                <input type="text" id="editPropTag" placeholder="Ex: Lançamento, Oportunidade, MCMV">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="editPropFeatures">Diferenciais (separados por vírgula)</label>
+              <input type="text" id="editPropFeatures" placeholder="Ex: Com Varanda, Vaga, Lazer Completo">
+            </div>
+
+            <div class="form-group">
+              <label for="editPropWhatsappText">Mensagem Personalizada para o WhatsApp</label>
+              <input type="text" id="editPropWhatsappText" placeholder="Mensagem pré-formatada quando o cliente clicar">
+            </div>
+
+            <div class="form-actions form-row-2">
+              <button type="button" class="btn btn-glass" id="btnCancelEditBottom">
+                <i class="fa-solid fa-xmark"></i> Cancelar
+              </button>
+              <button type="submit" class="btn btn-gold-liquid btn-lg">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Salvar Alterações e Atualizar Foto</span>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
 
     </div>

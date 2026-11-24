@@ -1,5 +1,6 @@
 /**
  * VJA Imóveis - Dynamic Liquid Glass Catalog & Owner Property Management
+ * Includes Full Edit Property & Photo Upload Feature
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -55,7 +56,43 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ========================================================================
-  // 3. Properties State Management (Default JSON + LocalStorage)
+  // Image Compression Helper (Ensures fast upload and storage)
+  // ========================================================================
+  function compressImage(file, maxWidth = 1200, maxHeight = 900, quality = 0.82) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ========================================================================
+  // 3. Properties State Management (JSON + Edits + LocalStorage)
   // ========================================================================
   let allProperties = [];
   let activeFilter = 'all';
@@ -84,9 +121,20 @@ document.addEventListener('DOMContentLoaded', () => {
       // 2. Check for locally added/modified properties in localStorage
       const localCustom = JSON.parse(localStorage.getItem('vja_custom_properties') || '[]');
       const deletedIds = JSON.parse(localStorage.getItem('vja_deleted_properties') || '[]');
+      const editedMap = JSON.parse(localStorage.getItem('vja_edited_properties') || '{}');
 
-      // Merge base with custom, filtering out any deleted IDs
-      const combined = [...baseProperties, ...localCustom].filter(p => !deletedIds.includes(p.id));
+      // Helper to apply user edits (including updated photos)
+      const applyEdits = (prop) => {
+        if (editedMap[prop.id]) {
+          return { ...prop, ...editedMap[prop.id] };
+        }
+        return prop;
+      };
+
+      // Combine base with custom, filter deleted, and apply any edits
+      const combined = [...baseProperties, ...localCustom]
+        .filter(p => !deletedIds.includes(p.id))
+        .map(applyEdits);
 
       allProperties = combined;
       renderProperties();
@@ -102,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!lancamentosGrid) return;
 
     lancamentosGrid.innerHTML = '';
+    const isAdmin = sessionStorage.getItem('vja_admin_logged') === 'true';
 
     const filtered = allProperties.filter(prop => {
       const matchesCategory = (activeFilter === 'all' || prop.category === activeFilter);
@@ -127,6 +176,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const featuresHtml = (prop.features || []).map(f => `<li><i class="fa-solid fa-circle-check"></i> ${f}</li>`).join('');
 
+        // If admin is logged in, show a quick-edit button directly on the card
+        const quickEditHtml = isAdmin
+          ? `<button class="card-quick-edit-btn" data-id="${prop.id}" title="Alterar foto ou dados do imóvel"><i class="fa-solid fa-camera"></i> Editar Foto</button>`
+          : '';
+
         const card = document.createElement('article');
         card.className = 'liquid-card lancamento-card';
         card.setAttribute('data-category', prop.category);
@@ -137,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="card-thumb-wrap">
             <img src="${prop.image || 'cartaofrente.jpeg'}" alt="${prop.title}" class="card-thumb" loading="lazy" onerror="this.src='cartaofrente.jpeg'">
             ${tagHtml}
+            ${quickEditHtml}
             <span class="tag-location"><i class="fa-solid fa-location-dot"></i> ${catName}</span>
           </div>
           <div class="card-body">
@@ -161,6 +216,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         lancamentosGrid.appendChild(card);
       });
+
+      // Bind quick edit buttons on cards
+      if (isAdmin) {
+        document.querySelectorAll('.card-quick-edit-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = btn.getAttribute('data-id');
+            openAdmin();
+            openEditProperty(id);
+          });
+        });
+      }
     }
 
     // Rebind light and tilt
@@ -303,6 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('vja_admin_logged', 'true');
         showDashboard();
         adminLoginForm.reset();
+        renderProperties(); // Re-render to show quick edit buttons if active
       } else {
         alert('Senha incorreta! Por favor, tente novamente.');
       }
@@ -313,26 +381,33 @@ document.addEventListener('DOMContentLoaded', () => {
     adminLogoutBtn.addEventListener('click', () => {
       sessionStorage.removeItem('vja_admin_logged');
       showLogin();
+      renderProperties();
     });
   }
 
-  // Admin Tabs (Novo Imóvel vs Gerenciar)
+  // Admin Tabs (Novo Imóvel vs Gerenciar vs Editar)
   const adminTabBtns = document.querySelectorAll('.admin-tab-btn');
   const adminTabContents = document.querySelectorAll('.admin-tab-content');
 
+  function switchAdminTab(targetTabId) {
+    adminTabBtns.forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-tab') === targetTabId);
+    });
+    adminTabContents.forEach(c => {
+      c.classList.toggle('active', c.id === targetTabId);
+    });
+  }
+
   adminTabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      adminTabBtns.forEach(b => b.classList.remove('active'));
-      adminTabContents.forEach(c => c.classList.remove('active'));
-
-      btn.classList.add('active');
       const tabId = btn.getAttribute('data-tab');
-      const target = document.getElementById(tabId);
-      if (target) target.classList.add('active');
+      switchAdminTab(tabId);
     });
   });
 
-  // Image Upload with Instant Preview
+  // ========================================================================
+  // 6. Cadastrar Novo Imóvel (Com Compressão e Upload de Foto)
+  // ========================================================================
   const propImageFile = document.getElementById('propImageFile');
   const uploadDropzone = document.getElementById('uploadDropzone');
   const imagePreviewWrap = document.getElementById('imagePreviewWrap');
@@ -341,17 +416,17 @@ document.addEventListener('DOMContentLoaded', () => {
   let uploadedBase64Image = '';
 
   if (propImageFile) {
-    propImageFile.addEventListener('change', (e) => {
+    propImageFile.addEventListener('change', async (e) => {
       const file = e.target.files[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          uploadedBase64Image = event.target.result;
+        try {
+          uploadedBase64Image = await compressImage(file);
           imagePreview.src = uploadedBase64Image;
           uploadDropzone.style.display = 'none';
           imagePreviewWrap.style.display = 'flex';
-        };
-        reader.readAsDataURL(file);
+        } catch (err) {
+          alert('Erro ao processar imagem. Tente outro arquivo.');
+        }
       }
     });
   }
@@ -366,7 +441,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Add New Property Submission
   const newPropertyForm = document.getElementById('newPropertyForm');
   if (newPropertyForm) {
     newPropertyForm.addEventListener('submit', (e) => {
@@ -420,11 +494,157 @@ document.addEventListener('DOMContentLoaded', () => {
       if (btnRemovePreview) btnRemovePreview.click();
 
       alert(`✅ Imóvel "${title}" cadastrado com sucesso na região ${categoryLabels[category]}!`);
-      closeAdmin();
+      switchAdminTab('manageTab');
     });
   }
 
-  // Render Manage & Delete List
+  // ========================================================================
+  // 7. EDITAR IMÓVEL E FAZER UPLOAD DE FOTOS (NOVA FUNCIONALIDADE)
+  // ========================================================================
+  const editTab = document.getElementById('editTab');
+  const editPropertyForm = document.getElementById('editPropertyForm');
+  const editPropHeading = document.getElementById('editPropHeading');
+  const editImagePreview = document.getElementById('editImagePreview');
+  const editPropImageFile = document.getElementById('editPropImageFile');
+  const editPhotoStatus = document.getElementById('editPhotoStatus');
+  const editPropImageUrl = document.getElementById('editPropImageUrl');
+  const btnCancelEdit = document.getElementById('btnCancelEdit');
+  const btnCancelEditBottom = document.getElementById('btnCancelEditBottom');
+
+  let currentEditUploadedImage = '';
+
+  // Abrir tela de edição para um imóvel
+  function openEditProperty(propId) {
+    const prop = allProperties.find(p => p.id === propId);
+    if (!prop) {
+      alert('Imóvel não encontrado.');
+      return;
+    }
+
+    // Preenche todos os campos do formulário de edição
+    document.getElementById('editPropId').value = prop.id;
+    document.getElementById('editPropTitle').value = prop.title;
+    document.getElementById('editPropCategory').value = prop.category;
+    document.getElementById('editPropLocation').value = prop.location;
+    document.getElementById('editPropPrice').value = prop.price;
+    document.getElementById('editPropDorms').value = prop.dorms;
+    document.getElementById('editPropArea').value = prop.area;
+    document.getElementById('editPropTag').value = prop.tag || '';
+    document.getElementById('editPropFeatures').value = (prop.features || []).join(', ');
+    document.getElementById('editPropWhatsappText').value = prop.whatsappText || '';
+
+    // Imagem atual e reset de estado de upload
+    editImagePreview.src = prop.image || 'cartaofrente.jpeg';
+    editPropImageUrl.value = prop.image && !prop.image.startsWith('data:') ? prop.image : '';
+    currentEditUploadedImage = '';
+    if (editPropImageFile) editPropImageFile.value = '';
+    if (editPhotoStatus) editPhotoStatus.style.display = 'none';
+
+    // Título do cabeçalho
+    if (editPropHeading) {
+      editPropHeading.textContent = `Editando: ${prop.title}`;
+    }
+
+    // Alterna para a aba de edição
+    switchAdminTab('editTab');
+  }
+
+  // Evento de seleção de arquivo para UPLOAD DA NOVA FOTO no formulário de edição
+  if (editPropImageFile) {
+    editPropImageFile.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        try {
+          currentEditUploadedImage = await compressImage(file);
+          editImagePreview.src = currentEditUploadedImage;
+          if (editPhotoStatus) {
+            editPhotoStatus.style.display = 'flex';
+          }
+        } catch (err) {
+          alert('Erro ao carregar a foto selecionada. Tente outro arquivo.');
+        }
+      }
+    });
+  }
+
+  // Cancelar edição
+  if (btnCancelEdit) {
+    btnCancelEdit.addEventListener('click', () => switchAdminTab('manageTab'));
+  }
+  if (btnCancelEditBottom) {
+    btnCancelEditBottom.addEventListener('click', () => switchAdminTab('manageTab'));
+  }
+
+  // Submissão do formulário de edição
+  if (editPropertyForm) {
+    editPropertyForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const id = document.getElementById('editPropId').value;
+      const propIndex = allProperties.findIndex(p => p.id === id);
+      if (propIndex === -1) {
+        alert('Erro: Imóvel não localizado.');
+        return;
+      }
+
+      const existingProp = allProperties[propIndex];
+      const title = document.getElementById('editPropTitle').value.trim();
+      const category = document.getElementById('editPropCategory').value;
+      const location = document.getElementById('editPropLocation').value.trim();
+      const price = document.getElementById('editPropPrice').value.trim();
+      const dorms = document.getElementById('editPropDorms').value.trim();
+      const area = document.getElementById('editPropArea').value.trim();
+      const tag = document.getElementById('editPropTag').value.trim();
+      const featuresRaw = document.getElementById('editPropFeatures').value.trim();
+      const urlImage = editPropImageUrl.value.trim();
+      const whatsappText = document.getElementById('editPropWhatsappText').value.trim();
+
+      // Determina a foto final: nova foto carregada > URL inserida > foto existente
+      const finalImage = currentEditUploadedImage || urlImage || existingProp.image || 'cartaofrente.jpeg';
+      const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(Boolean) : existingProp.features;
+
+      const updatedData = {
+        title,
+        category,
+        location,
+        price,
+        dorms,
+        area,
+        tag,
+        features,
+        image: finalImage,
+        whatsappText: whatsappText || `Olá! Tenho interesse no imóvel ${title} que vi no site da VJA Imóveis.`
+      };
+
+      // 1. Atualiza na lista de edições salvas no localStorage
+      const editedMap = JSON.parse(localStorage.getItem('vja_edited_properties') || '{}');
+      editedMap[id] = { ...(editedMap[id] || {}), ...updatedData };
+      localStorage.setItem('vja_edited_properties', JSON.stringify(editedMap));
+
+      // 2. Se for um imóvel customizado (adicionado pelo usuário), atualiza também no vja_custom_properties
+      let customProps = JSON.parse(localStorage.getItem('vja_custom_properties') || '[]');
+      const customIdx = customProps.findIndex(p => p.id === id);
+      if (customIdx !== -1) {
+        customProps[customIdx] = { ...customProps[customIdx], ...updatedData };
+        localStorage.setItem('vja_custom_properties', JSON.stringify(customProps));
+      }
+
+      // 3. Atualiza no array em memória
+      allProperties[propIndex] = { ...existingProp, ...updatedData };
+
+      // 4. Re-renderiza o site completo
+      renderProperties();
+      updateCategoryCounts();
+      renderManageList();
+
+      alert(`✅ Imóvel "${title}" e foto atualizados com sucesso no catálogo!`);
+      switchAdminTab('manageTab');
+    });
+  }
+
+  // ========================================================================
+  // 8. Renderizar Lista de Gerenciamento (Com botões Editar e Remover)
+  // ========================================================================
   function renderManageList() {
     const list = document.getElementById('managePropertiesList');
     if (!list) return;
@@ -442,29 +662,48 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="manage-prop-price">${prop.price}</div>
           </div>
         </div>
-        <button class="btn-delete-prop" data-id="${prop.id}">
-          <i class="fa-solid fa-trash"></i> Remover
-        </button>
+        <div class="manage-prop-actions">
+          <button class="btn-edit-prop" data-id="${prop.id}" title="Editar dados e trocar foto">
+            <i class="fa-solid fa-pen-to-square"></i> Editar
+          </button>
+          <button class="btn-delete-prop" data-id="${prop.id}" title="Remover imóvel">
+            <i class="fa-solid fa-trash"></i> Remover
+          </button>
+        </div>
       `;
       list.appendChild(item);
     });
 
-    // Bind delete events
+    // Eventos dos botões Editar
+    const editBtns = list.querySelectorAll('.btn-edit-prop');
+    editBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        openEditProperty(id);
+      });
+    });
+
+    // Eventos dos botões Remover
     const deleteBtns = list.querySelectorAll('.btn-delete-prop');
     deleteBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
         const propToDelete = allProperties.find(p => p.id === id);
         if (confirm(`Deseja realmente remover o imóvel "${propToDelete ? propToDelete.title : 'selecionado'}" do catálogo?`)) {
-          // Remove from runtime
+          // Remove da lista em memória
           allProperties = allProperties.filter(p => p.id !== id);
 
-          // Remove from custom local storage if present
+          // Remove de custom properties
           let currentCustom = JSON.parse(localStorage.getItem('vja_custom_properties') || '[]');
           currentCustom = currentCustom.filter(p => p.id !== id);
           localStorage.setItem('vja_custom_properties', JSON.stringify(currentCustom));
 
-          // Mark as deleted in deleted_ids so base properties stay hidden too
+          // Remove de edited properties
+          let editedMap = JSON.parse(localStorage.getItem('vja_edited_properties') || '{}');
+          delete editedMap[id];
+          localStorage.setItem('vja_edited_properties', JSON.stringify(editedMap));
+
+          // Marca nos deletados para não recarregar do JSON base
           const deletedIds = JSON.parse(localStorage.getItem('vja_deleted_properties') || '[]');
           if (!deletedIds.includes(id)) {
             deletedIds.push(id);
@@ -494,7 +733,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ========================================================================
-  // 6. Active Navigation State on Scroll
+  // 9. Active Navigation State on Scroll
   // ========================================================================
   const sections = document.querySelectorAll('section[id]');
   const observer = new IntersectionObserver((entries) => {
@@ -515,7 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
   sections.forEach(section => observer.observe(section));
 
   // ========================================================================
-  // 7. General Contact Form Integration with WhatsApp
+  // 10. General Contact Form Integration with WhatsApp
   // ========================================================================
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
